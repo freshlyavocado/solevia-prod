@@ -1,0 +1,42 @@
+# ==================== BACKEND (Laravel) ====================
+backend/vendor/
+backend/.env
+backend/.env.backup
+backend/storage/app/private/
+backend/storage/framework/cache/
+backend/storage/framework/sessions/
+backend/storage/framework/views/
+backend/storage/logs/
+backend/bootstrap/cache/
+backend/node_modules/
+backend/public/hot
+backend/public/storage
+backend/database/database.sqlite
+backend/.phpunit.cache/
+backend/.pest/
+backend/.vite/
+
+# ==================== FRONTEND (Vue) ====================
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+frontend/*.local
+frontend/.cache/
+frontend/.eslintcache
+frontend/.vite/
+
+# ==================== GENERAL ====================
+.DS_Store
+Thumbs.db
+*.log
+*.swp
+*.swo
+*~
+.idea/
+.vscode/settings.json
+
+# Keep these .vscode files
+!.vscode/extensions.json
+!.vscode/launch.json
