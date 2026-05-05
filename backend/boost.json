@@ -1,8 +1,6 @@
 {
     "agents": [
-        "claude_code",
-        "codex",
-        "gemini"
+        "claude_code"
     ],
     "cloud": false,
     "guidelines": true,
@@ -10,10 +8,7 @@
     "nightwatch": false,
     "sail": false,
     "skills": [
-        "fortify-development",
         "laravel-best-practices",
-        "fluxui-development",
-        "livewire-development",
         "pest-testing"
     ]
 }
