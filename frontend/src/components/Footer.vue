@@ -11,7 +11,6 @@ import { Instagram, Facebook, Twitter } from 'lucide-vue-next'
         <h2 class="text-3xl font-extrabold tracking-tight mb-6">Solevia</h2>
         <ul class="space-y-4 text-base text-gray-100 font-medium">
           <li><RouterLink to="/" class="hover:text-white transition">Home</RouterLink></li>
-          <li><RouterLink to="/about" class="hover:text-white transition">About Us</RouterLink></li>
           <li><RouterLink to="/size-guide" class="hover:text-white transition">Size Guide</RouterLink></li>
           <li><RouterLink to="/contact" class="hover:text-white transition">Contact Us</RouterLink></li>
         </ul>

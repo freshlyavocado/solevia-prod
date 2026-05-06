@@ -6,6 +6,11 @@ import BrandsView from '../pages/BrandsView.vue'
 import BrandDetailView from '../pages/BrandDetailView.vue'
 import ProductDetailView from '../pages/ProductDetailView.vue'
 import DealsView from '../pages/DealsView.vue'
+import CategoryView from '../pages/CategoryView.vue'
+import SearchView from '../pages/SearchView.vue'
+import AboutUsView from '../pages/AboutUsView.vue'
+import ContactUsView from '../pages/ContactUsView.vue'
+import SizeGuideView from '../pages/SizeGuideView.vue'
 import LoginView from '../pages/auth/LoginView.vue'
 import SignupView from '../pages/auth/SignupView.vue'
 
@@ -40,6 +45,26 @@ const router = createRouter({
           path: 'kids',
           name: 'kids',
           component: () => import('../pages/CategoryView.vue')
+        },
+        {
+          path: 'search',
+          name: 'search',
+          component: SearchView
+        },
+        {
+          path: 'about',
+          name: 'about',
+          component: AboutUsView
+        },
+        {
+          path: 'contact',
+          name: 'contact',
+          component: ContactUsView
+        },
+        {
+          path: 'size-guide',
+          name: 'size-guide',
+          component: SizeGuideView
         },
         {
           path: 'brands',

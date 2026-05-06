@@ -33,16 +33,16 @@ const formatPrice = (price: number) => {
 
     <!-- Product Details -->
     <div class="p-4 flex flex-col flex-1">
-      <span class="text-base font-bold text-[#3771C8] uppercase tracking-wide mb-1">{{ product.brand?.name || 'Brand' }}</span>
-      <RouterLink :to="`/product/${product.slug}`" class="text-base font-bold text-gray-900 mb-2 line-clamp-2 hover:text-[#3771C8] transition-colors">
+      <span class="text-base font-semibold text-[#3771C8] uppercase tracking-wide mb-1">{{ product.brand?.name || 'Brand' }}</span>
+      <RouterLink :to="`/product/${product.slug}`" class="text-base font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-[#3771C8] transition-colors">
         {{ product.name }}
       </RouterLink>
       <div class="mt-auto pt-2">
         <div v-if="product.discount_price" class="flex items-center gap-2">
-          <span class="text-xl font-extrabold text-gray-900">{{ formatPrice(product.discount_price) }}</span>
+          <span class="text-xl font-bold text-gray-900">{{ formatPrice(product.discount_price) }}</span>
           <span class="text-sm text-gray-500 line-through">{{ formatPrice(product.price) }}</span>
         </div>
-        <div v-else class="text-xl font-extrabold text-gray-900">
+        <div v-else class="text-xl font-bold text-gray-900">
           {{ formatPrice(product.price) }}
         </div>
       </div>

@@ -9,7 +9,7 @@ const productStore = useProductStore()
 const loading = ref(true)
 
 // Filter states
-const selectedBrands = ref<string[]>([])
+const selectedBrand = ref<string>('')
 const priceRange = ref<number>(5000000)
 
 const fetchProducts = async () => {
@@ -48,9 +48,9 @@ const filteredProducts = computed(() => {
       return false
     }
     
-    // Match brands (if any selected)
-    if (selectedBrands.value.length > 0 && p.brand) {
-      if (!selectedBrands.value.includes(p.brand.name)) return false
+    // Match brands
+    if (selectedBrand.value && p.brand) {
+      if (p.brand.name !== selectedBrand.value) return false
     }
 
     // Match price range
@@ -61,20 +61,9 @@ const filteredProducts = computed(() => {
   })
 })
 
-const availableBrands = computed(() => {
-  // Only show brands that have products in this category
-  const catProducts = productStore.products.filter(p => {
-    const catNameDb = p.category?.name.toLowerCase() || ''
-    const currentCat = categoryName.value.toLowerCase()
-    return catNameDb === currentCat || catNameDb === currentCat + "'s" || catNameDb === currentCat + "s"
-  })
-  const brands = catProducts.map(p => p.brand?.name).filter(Boolean) as string[]
-  return [...new Set(brands)]
-})
-
 // Reset filters when route changes (e.g. from /men to /women)
 watch(() => route.path, () => {
-  selectedBrands.value = []
+  selectedBrand.value = ''
   priceRange.value = 5000000
 })
 </script>
@@ -106,13 +95,17 @@ watch(() => route.path, () => {
           <!-- Brands -->
           <div class="mb-6">
             <h3 class="font-bold text-gray-900 mb-3 text-sm">Brand</h3>
-            <div class="space-y-2">
-              <label v-for="brand in availableBrands" :key="brand" class="flex items-center space-x-3 cursor-pointer group">
-                <input type="checkbox" :value="brand" v-model="selectedBrands" class="form-checkbox h-4 w-4 text-[#3771C8] border-gray-300 rounded focus:ring-[#3771C8] transition" />
-                <span class="text-sm text-gray-700 group-hover:text-[#3771C8] transition-colors">{{ brand }}</span>
-              </label>
+            <div class="relative">
+              <select v-model="selectedBrand" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#3771C8] focus:border-[#3771C8] appearance-none bg-white">
+                <option value="">All Brands</option>
+                <option v-for="brand in productStore.brands" :key="brand.id" :value="brand.name">
+                  {{ brand.name }}
+                </option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+              </div>
             </div>
-            <div v-if="availableBrands.length === 0" class="text-xs text-gray-400">No brands available</div>
           </div>
 
           <!-- Price -->
@@ -135,7 +128,7 @@ watch(() => route.path, () => {
         </div>
         <div v-else class="text-center py-20 bg-gray-50 rounded-2xl">
           <p class="text-gray-500 font-medium">No products found matching your filters.</p>
-          <button @click="selectedBrands = []; priceRange = 5000000" class="mt-4 text-[#3771C8] font-bold hover:underline">Clear Filters</button>
+          <button @click="selectedBrand = ''; priceRange = 5000000" class="mt-4 text-[#3771C8] font-bold hover:underline">Clear Filters</button>
         </div>
       </div>
 

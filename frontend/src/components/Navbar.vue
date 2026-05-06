@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import { Search, Heart, ShoppingCart, User } from 'lucide-vue-next'
 import { useAuthStore } from '../stores/auth'
 
 const authStore = useAuthStore()
+const router = useRouter()
 const searchQuery = ref('')
+
+const handleSearch = () => {
+  if (searchQuery.value.trim()) {
+    router.push({ name: 'search', query: { q: searchQuery.value } })
+  }
+}
 </script>
 
 <template>
@@ -18,20 +25,24 @@ const searchQuery = ref('')
       </RouterLink>
 
       <!-- Search Bar -->
-      <div class="hidden md:flex flex-1 max-w-3xl mx-8 relative">
+      <div class="hidden md:flex flex-1 max-w-2xl mx-6 relative">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <Search class="h-5 w-5 text-gray-400" />
         </div>
         <input
           v-model="searchQuery"
+          @keyup.enter="handleSearch"
           type="text"
           class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-full leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:border-[#3771C8] focus:ring-1 focus:ring-[#3771C8] sm:text-sm transition duration-150 ease-in-out"
           placeholder="Search for brand, etc."
         />
       </div>
 
-      <!-- Icons -->
-      <div class="flex items-center space-x-7">
+      <!-- Icons and About Us -->
+      <div class="flex items-center gap-8 mr-8">
+        <RouterLink to="/about" class="text-sm font-semibold text-gray-900 hover:text-[#3771C8] transition whitespace-nowrap">
+          About Us
+        </RouterLink>
         <RouterLink to="/wishlist" class="text-gray-900 hover:text-[#3771C8] transition">
           <Heart class="h-6 w-6" />
         </RouterLink>

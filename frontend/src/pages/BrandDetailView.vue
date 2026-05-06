@@ -12,7 +12,7 @@ const brand = ref<Brand | null>(null)
 const loading = ref(true)
 
 // Filter states
-const selectedCategories = ref<string[]>([])
+const selectedCategory = ref<string>('')
 const priceRange = ref<number>(5000000)
 
 const fetchBrandAndProducts = async () => {
@@ -22,6 +22,9 @@ const fetchBrandAndProducts = async () => {
     brand.value = data
     if (productStore.products.length === 0) {
       await productStore.fetchProducts()
+    }
+    if (productStore.categories.length === 0) {
+      await productStore.fetchCategories()
     }
   } catch (error) {
     console.error("Error fetching brand details", error)
@@ -40,9 +43,9 @@ const filteredProducts = computed(() => {
     // Match brand
     if (p.brand_id !== brand.value?.id) return false
     
-    // Match categories (if any selected)
-    if (selectedCategories.value.length > 0 && p.category) {
-      if (!selectedCategories.value.includes(p.category.name)) return false
+    // Match categories
+    if (selectedCategory.value && p.category) {
+      if (p.category.name !== selectedCategory.value) return false
     }
 
     // Match price range
@@ -51,12 +54,6 @@ const filteredProducts = computed(() => {
 
     return true
   })
-})
-
-const availableCategories = computed(() => {
-  const brandProducts = productStore.products.filter(p => p.brand_id === brand.value?.id)
-  const cats = brandProducts.map(p => p.category?.name).filter(Boolean) as string[]
-  return [...new Set(cats)]
 })
 </script>
 
@@ -93,13 +90,17 @@ const availableCategories = computed(() => {
             <!-- Categories -->
             <div class="mb-6">
               <h3 class="font-bold text-gray-900 mb-3 text-sm">Category</h3>
-              <div class="space-y-2">
-                <label v-for="cat in availableCategories" :key="cat" class="flex items-center space-x-3 cursor-pointer group">
-                  <input type="checkbox" :value="cat" v-model="selectedCategories" class="form-checkbox h-4 w-4 text-[#3771C8] border-gray-300 rounded focus:ring-[#3771C8] transition" />
-                  <span class="text-sm text-gray-700 group-hover:text-[#3771C8] transition-colors">{{ cat }}</span>
-                </label>
+              <div class="relative">
+                <select v-model="selectedCategory" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#3771C8] focus:border-[#3771C8] appearance-none bg-white">
+                  <option value="">All Categories</option>
+                  <option v-for="cat in productStore.categories" :key="cat.id" :value="cat.name">
+                    {{ cat.name }}
+                  </option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                  <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                </div>
               </div>
-              <div v-if="availableCategories.length === 0" class="text-xs text-gray-400">No categories</div>
             </div>
 
             <!-- Price -->
@@ -119,7 +120,7 @@ const availableCategories = computed(() => {
           </div>
           <div v-else class="text-center py-20">
             <p class="text-gray-500 font-medium">No products found matching your filters.</p>
-            <button @click="selectedCategories = []; priceRange = 5000000" class="mt-4 text-[#3771C8] font-bold hover:underline">Clear Filters</button>
+            <button @click="selectedCategory = ''; priceRange = 5000000" class="mt-4 text-[#3771C8] font-bold hover:underline">Clear Filters</button>
           </div>
         </div>
 

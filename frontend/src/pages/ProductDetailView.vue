@@ -151,7 +151,7 @@ const availableSizes = computed(() => {
                 :key="size"
                 @click="selectedSize = size"
                 class="px-5 py-2 border rounded-md text-sm font-bold transition-colors"
-                :class="selectedSize === size ? 'border-gray-900 text-gray-900 bg-gray-50' : 'border-gray-300 text-gray-700 hover:border-[#3771C8] hover:text-[#3771C8]'"
+                :class="selectedSize === size ? 'border-[#3771C8] text-[#3771C8] bg-blue-50' : 'border-gray-300 text-gray-700 hover:border-[#3771C8] hover:text-[#3771C8]'"
               >
                 {{ size }}
               </button>

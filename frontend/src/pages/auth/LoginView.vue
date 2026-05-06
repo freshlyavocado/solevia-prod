@@ -2,18 +2,23 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Eye, EyeOff } from 'lucide-vue-next'
+import { useAuthStore } from '../../stores/auth'
 
 const router = useRouter()
+const authStore = useAuthStore()
 const email = ref('')
 const password = ref('')
 const showPassword = ref(false)
 
-const handleLogin = (e: Event) => {
+const handleLogin = async (e: Event) => {
   e.preventDefault()
-  // Mock login action
-  console.log('Logging in with', email.value, password.value)
-  // Normally: authStore.login(...)
-  router.push('/')
+  try {
+    await authStore.login({ email: email.value, password: password.value })
+    router.push('/')
+  } catch (error) {
+    console.error('Login failed', error)
+    alert('Login failed. Please check your email and password.')
+  }
 }
 </script>
 
