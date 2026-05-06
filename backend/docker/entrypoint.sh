@@ -3,8 +3,14 @@ set -e
 
 echo "=== Starting Solevia Backend ==="
 
+# Create .env file from environment variables if it doesn't exist
+if [ ! -f .env ]; then
+    echo "[0/4] Creating .env from environment..."
+    env | grep -E '^(APP_|DB_|CACHE_|SESSION_|QUEUE_|SANCTUM_|FRONTEND_|MAIL_|LOG_)' > .env 2>/dev/null || true
+fi
+
 # Generate app key if not set
-if [ -z "$APP_KEY" ]; then
+if [ -z "$APP_KEY" ] && ! grep -q "APP_KEY=base64" .env 2>/dev/null; then
     echo "[1/4] Generating application key..."
     php artisan key:generate --force
 fi
@@ -21,10 +27,10 @@ php artisan migrate --force || {
 echo "[3/4] Creating storage link..."
 php artisan storage:link 2>/dev/null || true
 
-# DO NOT cache config — Docker env vars must be read at runtime
+# Cache routes and views (NOT config — Docker env vars must be read at runtime)
 echo "[4/4] Caching routes and views..."
-php artisan route:cache || true
-php artisan view:cache || true
+php artisan route:cache 2>/dev/null || true
+php artisan view:cache 2>/dev/null || true
 
 echo "=== Solevia Backend ready! ==="
 
