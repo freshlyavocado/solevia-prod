@@ -35,7 +35,7 @@ services:
     environment:
       APP_NAME: Solevia
       APP_ENV: production
-      APP_KEY: base64:dGhpc2lzYXRlc3RrZXlmb3Jzb2xldmlhYmFja2VuZA==
+      APP_KEY: base64:qaGMBgcItvRvm3ihs6KBbfsJVpc7nMBIXSmPf0DCXxo=
       APP_DEBUG: "true"
       APP_URL: http://192.168.100.48:8000
       DB_CONNECTION: mysql
