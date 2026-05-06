@@ -62,7 +62,8 @@ COPY . .
 RUN composer dump-autoload --optimize --no-dev 2>/dev/null || true
 
 # Set permissions
-RUN chown -R www-data:www-data /var/www/html \
+RUN mkdir -p storage/logs storage/framework/{cache,sessions,views} bootstrap/cache \
+    && chown -R www-data:www-data /var/www/html \
     && chmod -R 775 storage bootstrap/cache
 
 # Create storage symlink directory
