@@ -35,6 +35,7 @@ services:
     environment:
       APP_NAME: Solevia
       APP_ENV: production
+      APP_KEY: base64:dGhpc2lzYXRlc3RrZXlmb3Jzb2xldmlhYmFja2VuZA==
       APP_DEBUG: "true"
       APP_URL: http://192.168.100.48:8000
       DB_CONNECTION: mysql
@@ -46,6 +47,7 @@ services:
       CACHE_STORE: file
       SESSION_DRIVER: file
       QUEUE_CONNECTION: sync
+      LOG_CHANNEL: stderr
       SANCTUM_STATEFUL_DOMAINS: "localhost,localhost:5173,192.168.100.48,192.168.100.48:5173"
       FRONTEND_URL: "http://192.168.100.48:5173"
     volumes:
