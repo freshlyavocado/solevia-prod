@@ -63,17 +63,19 @@ COPY --from=composer-deps /app/vendor ./vendor
 # Copy application code
 COPY . .
 
-# Generate optimized autoloader
-RUN composer dump-autoload --optimize --no-dev
-
-# Create required directories & set permissions
+# Create required directories BEFORE composer (package:discover needs bootstrap/cache)
 RUN mkdir -p storage/logs \
         storage/framework/cache/data \
         storage/framework/sessions \
         storage/framework/views \
         bootstrap/cache \
-        public/storage \
-    && chown -R www-data:www-data /var/www/html \
+        public/storage
+
+# Generate optimized autoloader
+RUN composer dump-autoload --optimize --no-dev
+
+# Set permissions
+RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 storage bootstrap/cache
 
 # Expose port
