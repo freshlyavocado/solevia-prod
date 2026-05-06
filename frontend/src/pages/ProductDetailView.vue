@@ -51,7 +51,7 @@ const activeImage = computed(() => {
   if (!product.value?.images || product.value.images.length === 0) {
     return 'https://placehold.co/600x600?text=No+Image'
   }
-  return `http://localhost:8000/storage/${product.value.images[selectedImageIndex.value].image_url}`
+  return `http://localhost:8000/storage/${product.value.images[selectedImageIndex.value]?.image_url}`
 })
 
 // Thumbnails Slider Logic
@@ -140,7 +140,7 @@ const availableSizes = computed(() => {
           <div class="mb-8">
             <div class="flex justify-between items-center mb-4">
               <span class="text-sm font-bold text-gray-900">Size</span>
-              <a href="#" class="text-xs font-bold text-[#3771C8] hover:underline flex items-center transition-colors">
+              <a href="#" class="text-sm font-bold text-[#3771C8] hover:underline flex items-center transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg>
                 Size Guide
               </a>
