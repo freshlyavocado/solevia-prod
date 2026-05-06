@@ -4,6 +4,10 @@
 
 # --- Stage 1: Composer dependencies ---
 FROM composer:2 AS composer-deps
+
+# Install intl extension (required by Filament)
+RUN apk add --no-cache icu-dev && docker-php-ext-install intl
+
 WORKDIR /app
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
