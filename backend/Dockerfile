@@ -1,5 +1,5 @@
 # ============================================
-# Solevia Backend — Laravel 13 + PHP 8.3
+# Solevia Backend — Laravel 13 + PHP 8.4
 # ============================================
 
 # --- Stage 1: Composer dependencies ---
@@ -13,7 +13,7 @@ COPY composer.json composer.lock ./
 RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
 
 # --- Stage 2: Production image ---
-FROM php:8.3-fpm-alpine
+FROM php:8.4-fpm-alpine
 
 # Install system deps & PHP extensions
 RUN apk add --no-cache \
