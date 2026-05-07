@@ -10,11 +10,23 @@ use App\Models\ProductVariant;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
+/**
+ * DatabaseSeeder — Mengisi database dengan data awal (seed).
+ *
+ * Jalankan dengan: php artisan db:seed
+ *
+ * Data yang dibuat:
+ * - 4 kategori  : Sneakers, Running, Formal, Sandals
+ * - 4 brand     : Nike, Adidas, Puma, New Balance
+ * - 8 produk    : Masing-masing dengan 1 gambar placeholder dan 7 varian ukuran (38-44)
+ */
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Categories
+        // ============================================================
+        // Seed Kategori Produk
+        // ============================================================
         $categories = [
             ['name' => 'Sneakers', 'description' => 'Casual and sporty sneakers'],
             ['name' => 'Running', 'description' => 'Performance running shoes'],
@@ -26,7 +38,9 @@ class DatabaseSeeder extends Seeder
             Category::create($cat);
         }
 
-        // Brands
+        // ============================================================
+        // Seed Brand / Merek
+        // ============================================================
         $brands = [
             ['name' => 'Nike', 'description' => 'Just Do It'],
             ['name' => 'Adidas', 'description' => 'Impossible Is Nothing'],
@@ -38,7 +52,9 @@ class DatabaseSeeder extends Seeder
             Brand::create($brand);
         }
 
-        // Products
+        // ============================================================
+        // Seed Produk Sepatu
+        // ============================================================
         $products = [
             ['name' => 'Air Max 90', 'price' => 1500000, 'category_id' => 1, 'brand_id' => 1, 'description' => 'Classic Nike Air Max 90 with visible Air cushioning.'],
             ['name' => 'Ultraboost 22', 'price' => 2800000, 'category_id' => 2, 'brand_id' => 2, 'description' => 'Premium running shoe with Boost midsole technology.'],
@@ -50,9 +66,11 @@ class DatabaseSeeder extends Seeder
             ['name' => '574 Core', 'price' => 1300000, 'category_id' => 1, 'brand_id' => 4, 'description' => 'Versatile lifestyle sneaker with ENCAP midsole.'],
         ];
 
+        // Ukuran sepatu yang tersedia untuk setiap produk
         $sizes = ['38', '39', '40', '41', '42', '43', '44'];
 
         foreach ($products as $productData) {
+            // Buat produk dengan slug otomatis dari nama
             $product = Product::create([
                 'name' => $productData['name'],
                 'slug' => Str::slug($productData['name']),
@@ -62,13 +80,13 @@ class DatabaseSeeder extends Seeder
                 'brand_id' => $productData['brand_id'],
             ]);
 
-            // Create placeholder image
+            // Buat 1 gambar placeholder untuk setiap produk
             ProductImage::create([
                 'product_id' => $product->id,
                 'image_url' => 'products/placeholder.png',
             ]);
 
-            // Create variants with random stock
+            // Buat varian ukuran (38-44) dengan stok random 5-50
             foreach ($sizes as $size) {
                 ProductVariant::create([
                     'product_id' => $product->id,

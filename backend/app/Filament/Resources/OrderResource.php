@@ -17,16 +17,23 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use UnitEnum;
 
+/**
+ * OrderResource — Halaman admin Filament untuk mengelola pesanan.
+ *
+ * Admin bisa melihat, mengedit status, dan memfilter pesanan.
+ * Navigasi: Orders → Orders (icon: clipboard-document-list, urutan ke-1)
+ */
 class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
-
     protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-clipboard-document-list';
-
     protected static string | UnitEnum | null $navigationGroup = 'Orders';
-
     protected static ?int $navigationSort = 1;
 
+    /**
+     * Form edit pesanan — admin hanya bisa ubah status dan payment_status.
+     * Order number dan total amount di-disabled (tidak bisa diubah).
+     */
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
@@ -52,6 +59,10 @@ class OrderResource extends Resource
         ]);
     }
 
+    /**
+     * Tabel daftar pesanan — menampilkan nomor, customer, total, status, tanggal.
+     * Status ditampilkan sebagai badge berwarna.
+     */
     public static function table(Table $table): Table
     {
         return $table
@@ -59,6 +70,7 @@ class OrderResource extends Resource
                 TextColumn::make('order_number')->searchable()->sortable(),
                 TextColumn::make('user.name')->sortable()->label('Customer'),
                 TextColumn::make('total_amount')->money('IDR')->sortable(),
+                // Badge status pesanan dengan warna sesuai kondisi
                 TextColumn::make('status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -69,6 +81,7 @@ class OrderResource extends Resource
                         'cancelled' => 'danger',
                         default => 'gray',
                     }),
+                // Badge status pembayaran
                 TextColumn::make('payment_status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -80,19 +93,14 @@ class OrderResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
-                SelectFilter::make('status')
-                    ->options([
-                        'pending' => 'Pending',
-                        'paid' => 'Paid',
-                        'shipped' => 'Shipped',
-                        'completed' => 'Completed',
-                        'cancelled' => 'Cancelled',
-                    ]),
-                SelectFilter::make('payment_status')
-                    ->options([
-                        'unpaid' => 'Unpaid',
-                        'paid' => 'Paid',
-                    ]),
+                SelectFilter::make('status')->options([
+                    'pending' => 'Pending', 'paid' => 'Paid',
+                    'shipped' => 'Shipped', 'completed' => 'Completed',
+                    'cancelled' => 'Cancelled',
+                ]),
+                SelectFilter::make('payment_status')->options([
+                    'unpaid' => 'Unpaid', 'paid' => 'Paid',
+                ]),
             ])
             ->recordActions([
                 Actions\ViewAction::make(),
@@ -100,6 +108,10 @@ class OrderResource extends Resource
             ]);
     }
 
+    /**
+     * Infolist — Halaman detail pesanan (view).
+     * Menampilkan info order, shipping, dan payment dalam section terpisah.
+     */
     public static function infolist(Schema $schema): Schema
     {
         return $schema->components([

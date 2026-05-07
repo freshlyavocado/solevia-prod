@@ -14,34 +14,40 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use UnitEnum;
 
+/**
+ * CategoryResource — Halaman admin Filament untuk mengelola kategori produk.
+ *
+ * Admin bisa CRUD kategori (Sneakers, Running, Formal, Sandals).
+ * Navigasi: Catalog → Categories (icon: tag, urutan ke-1)
+ */
 class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
-
     protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-tag';
-
     protected static string | UnitEnum | null $navigationGroup = 'Catalog';
-
     protected static ?int $navigationSort = 1;
 
+    /**
+     * Form create/edit kategori — hanya nama dan deskripsi.
+     */
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            TextInput::make('name')
-                ->required()
-                ->maxLength(255),
-            Textarea::make('description')
-                ->maxLength(1000)
-                ->columnSpanFull(),
+            TextInput::make('name')->required()->maxLength(255),
+            Textarea::make('description')->maxLength(1000)->columnSpanFull(),
         ]);
     }
 
+    /**
+     * Tabel daftar kategori — ID, nama, dan jumlah produk.
+     */
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
                 TextColumn::make('id')->sortable(),
                 TextColumn::make('name')->searchable()->sortable(),
+                // Menghitung jumlah produk di setiap kategori
                 TextColumn::make('products_count')
                     ->counts('products')
                     ->label('Products'),
