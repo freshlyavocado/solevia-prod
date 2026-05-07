@@ -1,3 +1,9 @@
+<!-- 
+  INFO FILE
+  Nama: AboutUsView.vue
+  Fungsi: Halaman statis yang menampilkan informasi perusahaan dan "The Solevia Promise".
+-->
+
 <script setup lang="ts">
 import { ShieldCheck, Truck, RotateCcw, Headphones } from 'lucide-vue-next'
 </script>

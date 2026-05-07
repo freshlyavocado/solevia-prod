@@ -1,3 +1,9 @@
+<!-- 
+  INFO FILE
+  Nama: ContactUsView.vue
+  Fungsi: Halaman statis yang berisi informasi kontak dan formulir untuk menghubungi layanan pelanggan.
+-->
+
 <script setup lang="ts">
 import { ref } from 'vue'
 

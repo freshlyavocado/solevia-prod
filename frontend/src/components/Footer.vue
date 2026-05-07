@@ -1,3 +1,9 @@
+<!-- 
+  INFO FILE
+  Nama: Footer.vue
+  Fungsi: Komponen Footer global yang berisi informasi hak cipta, alamat, dan link sosial media.
+-->
+
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import { Instagram, Facebook, Twitter } from 'lucide-vue-next'

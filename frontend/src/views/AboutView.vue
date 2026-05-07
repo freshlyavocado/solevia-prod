@@ -1,3 +1,9 @@
+<!-- 
+  INFO FILE
+  Nama: AboutView.vue
+  Fungsi: Komponen/File bagian dari aplikasi Solevia.
+-->
+
 <template>
   <div class="about">
     <h1>This is an about page</h1>

@@ -1,3 +1,9 @@
+<!-- 
+  INFO FILE
+  Nama: BrandDetailView.vue
+  Fungsi: Halaman dinamis yang menampilkan detail spesifik sebuah Brand beserta produk-produknya yang bisa difilter.
+-->
+
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'

@@ -1,3 +1,9 @@
+<!-- 
+  INFO FILE
+  Nama: SizeGuideView.vue
+  Fungsi: Halaman statis yang berisi tabel panduan ukuran sepatu (Men & Women).
+-->
+
 <script setup lang="ts">
 // Simple static view
 </script>

@@ -1,3 +1,9 @@
+<!-- 
+  INFO FILE
+  Nama: AuthLayout.vue
+  Fungsi: Kerangka dasar khusus untuk halaman otentikasi (tanpa Navbar/Footer utuh).
+-->
+
 <script setup lang="ts">
 import { RouterView, RouterLink } from 'vue-router'
 </script>

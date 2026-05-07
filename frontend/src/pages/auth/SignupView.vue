@@ -1,9 +1,17 @@
+<!-- 
+  INFO FILE
+  Nama: SignupView.vue
+  Fungsi: Halaman otentikasi untuk pengguna baru mendaftar (register) akun.
+-->
+
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Eye, EyeOff } from 'lucide-vue-next'
+import { useAuthStore } from '../../stores/auth'
 
 const router = useRouter()
+const authStore = useAuthStore()
 const firstName = ref('')
 const lastName = ref('')
 const email = ref('')
@@ -12,14 +20,26 @@ const confirmPassword = ref('')
 const showPassword = ref(false)
 const showConfirmPassword = ref(false)
 
-const handleSignup = (e: Event) => {
+const handleSignup = async (e: Event) => {
   e.preventDefault()
   if (password.value !== confirmPassword.value) {
     alert("Passwords do not match!")
     return
   }
-  // Mock signup action
-  router.push('/login')
+  
+  try {
+    await authStore.register({
+      name: `${firstName.value} ${lastName.value}`,
+      email: email.value,
+      password: password.value,
+      password_confirmation: confirmPassword.value
+    })
+    alert('Sign up successful!')
+    router.push('/')
+  } catch (error: any) {
+    console.error("Signup error:", error)
+    alert(error.response?.data?.message || 'Failed to sign up. Please check your inputs.')
+  }
 }
 </script>
 

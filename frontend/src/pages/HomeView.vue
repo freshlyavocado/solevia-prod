@@ -1,3 +1,9 @@
+<!-- 
+  INFO FILE
+  Nama: HomeView.vue
+  Fungsi: Halaman beranda utama yang menampilkan banner promosi, brand populer, dan highlight produk.
+-->
+
 <script setup lang="ts">
 import { onMounted, ref, onUnmounted } from 'vue'
 import { useProductStore } from '../stores/product'

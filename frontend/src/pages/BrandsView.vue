@@ -1,3 +1,9 @@
+<!-- 
+  INFO FILE
+  Nama: BrandsView.vue
+  Fungsi: Halaman yang menampilkan daftar semua Brand yang tersedia dalam bentuk grid logo.
+-->
+
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useProductStore } from '../stores/product'

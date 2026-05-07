@@ -1,3 +1,9 @@
+<!-- 
+  INFO FILE
+  Nama: SearchView.vue
+  Fungsi: Halaman hasil pencarian dari navbar, dilengkapi dengan sistem filter dropdown berdasarkan hasil yang ditemukan.
+-->
+
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'

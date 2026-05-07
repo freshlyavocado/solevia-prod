@@ -1,10 +1,36 @@
+<!-- 
+  INFO FILE
+  Nama: ProductCard.vue
+  Fungsi: Komponen reusable (bisa dipakai ulang) untuk menampilkan kotak produk (gambar, nama, harga) di berbagai halaman.
+-->
+
 <script setup lang="ts">
 import type { Product } from '../types'
 import { Heart } from 'lucide-vue-next'
+import { useAuthStore } from '../stores/auth'
+import api from '../services/api'
 
-defineProps<{
+const props = defineProps<{
   product: Product
+  hideWishlistButton?: boolean
 }>()
+
+const authStore = useAuthStore()
+
+const addToWishlist = async (e: Event) => {
+  e.preventDefault()
+  if (!authStore.isAuthenticated) {
+    alert('Please log in to add items to your wishlist.')
+    return
+  }
+  try {
+    await api.post('/wishlists', { product_id: props.product.id })
+    alert('Added to wishlist successfully!')
+  } catch (error) {
+    console.error(error)
+    alert('Failed to add to wishlist.')
+  }
+}
 
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat('id-ID', {
@@ -18,7 +44,7 @@ const formatPrice = (price: number) => {
 <template>
   <div class="group relative flex flex-col bg-white overflow-hidden transition-transform duration-300 hover:-translate-y-1">
     <!-- Wishlist Button -->
-    <button class="absolute top-2 right-2 z-10 p-2 text-gray-400 hover:text-red-500 transition-colors">
+    <button v-if="!hideWishlistButton" @click.prevent="addToWishlist" class="absolute top-2 right-2 z-10 p-2 text-gray-400 hover:text-red-500 transition-colors">
       <Heart class="h-5 w-5" />
     </button>
 

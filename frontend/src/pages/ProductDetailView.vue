@@ -1,11 +1,21 @@
+<!-- 
+  INFO FILE
+  Nama: ProductDetailView.vue
+  Fungsi: Halaman yang menampilkan detail lengkap sebuah produk, termasuk slider gambar, pilihan ukuran, dan deskripsi.
+-->
+
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { Heart, Share2, Plus, Minus, ChevronLeft, ChevronRight } from 'lucide-vue-next'
 import api from '../services/api'
+import { useCartStore } from '../stores/cart'
+import { useAuthStore } from '../stores/auth'
 import type { Product } from '../types'
 
 const route = useRoute()
+const cartStore = useCartStore()
+const authStore = useAuthStore()
 const product = ref<Product | null>(null)
 const loading = ref(true)
 const selectedImageIndex = ref(0)
@@ -78,6 +88,50 @@ const availableSizes = computed(() => {
   const sizes = product.value.variants.map(v => v.size).filter(Boolean) as string[]
   return [...new Set(sizes)]
 })
+
+const selectedVariant = computed(() => {
+  if (!product.value?.variants || !selectedSize.value) return null
+  return product.value.variants.find(v => v.size === selectedSize.value)
+})
+
+const addToCart = async () => {
+  if (!authStore.isAuthenticated) {
+    alert('Please log in to add items to your cart.')
+    return
+  }
+  if (!selectedSize.value) {
+    alert('Please select a size first.')
+    return
+  }
+  if (!selectedVariant.value) {
+    alert('Variant not found.')
+    return
+  }
+  
+  try {
+    await cartStore.addItem(selectedVariant.value.id, quantity.value)
+    alert('Item successfully added to cart!')
+  } catch (error) {
+    console.error(error)
+    alert('Failed to add item to cart.')
+  }
+}
+
+const addToWishlist = async () => {
+  if (!authStore.isAuthenticated) {
+    alert('Please log in to add items to your wishlist.')
+    return
+  }
+  if (!product.value) return
+  
+  try {
+    await api.post('/wishlists', { product_id: product.value.id })
+    alert('Item successfully added to wishlist!')
+  } catch (error) {
+    console.error(error)
+    alert('Failed to add item to wishlist.')
+  }
+}
 </script>
 
 <template>
@@ -90,9 +144,6 @@ const availableSizes = computed(() => {
       <!-- Left Column: Images -->
       <div class="flex flex-col">
         <div class="relative w-full aspect-square bg-white rounded-xl mb-4 overflow-hidden flex items-center justify-center p-8 group">
-          <button class="absolute top-4 right-4 z-10 p-2 text-gray-400 hover:text-[#3771C8] transition">
-            <Heart class="h-6 w-6" />
-          </button>
           <img :src="activeImage" :alt="product.name" class="w-full h-full object-contain mix-blend-multiply transition-transform duration-500 group-hover:scale-105" />
         </div>
         
@@ -140,10 +191,10 @@ const availableSizes = computed(() => {
           <div class="mb-8">
             <div class="flex justify-between items-center mb-4">
               <span class="text-sm font-bold text-gray-900">Size</span>
-              <a href="#" class="text-sm font-bold text-[#3771C8] hover:underline flex items-center transition-colors">
+              <RouterLink to="/size-guide" class="text-sm font-bold text-[#3771C8] hover:underline flex items-center transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" /></svg>
                 Size Guide
-              </a>
+              </RouterLink>
             </div>
             <div v-if="availableSizes.length > 0" class="flex flex-wrap gap-3">
               <button 
@@ -197,11 +248,11 @@ const availableSizes = computed(() => {
 
         <!-- Action Buttons -->
         <div class="grid grid-cols-2 gap-4 mt-6">
-          <button class="py-4 border border-[#3771C8]/40 bg-white text-[#3771C8] font-bold rounded-xl hover:border-[#3771C8] hover:bg-blue-50 transition shadow-sm">
-            Add to Favorite
+          <button @click="addToWishlist" class="py-4 border border-[#3771C8]/40 bg-white text-[#3771C8] font-bold rounded-xl hover:border-[#3771C8] hover:bg-blue-50 transition shadow-sm">
+            Add to Wishlist
           </button>
-          <button class="py-4 bg-[#3771C8] text-white font-bold rounded-xl hover:opacity-90 transition shadow-sm">
-            Buy Now
+          <button @click="addToCart" :disabled="cartStore.loading" class="py-4 bg-[#3771C8] text-white font-bold rounded-xl hover:opacity-90 transition shadow-sm disabled:opacity-50">
+            {{ cartStore.loading ? 'Adding...' : 'Add to Cart' }}
           </button>
         </div>
       </div>

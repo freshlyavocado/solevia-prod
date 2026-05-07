@@ -1,3 +1,9 @@
+<!-- 
+  INFO FILE
+  Nama: HelloWorld.vue
+  Fungsi: Komponen/File bagian dari aplikasi Solevia.
+-->
+
 <script setup lang="ts">
 defineProps<{
   msg: string

@@ -1,3 +1,9 @@
+<!-- 
+  INFO FILE
+  Nama: CategoryView.vue
+  Fungsi: Halaman dinamis untuk menampilkan produk berdasarkan Kategori (Men/Women/Kids) dengan fitur filter dropdown.
+-->
+
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'

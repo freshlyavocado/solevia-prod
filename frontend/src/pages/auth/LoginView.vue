@@ -1,3 +1,9 @@
+<!-- 
+  INFO FILE
+  Nama: LoginView.vue
+  Fungsi: Halaman otentikasi untuk pengguna masuk (login) ke dalam akun mereka.
+-->
+
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'

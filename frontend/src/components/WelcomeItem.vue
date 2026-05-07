@@ -1,3 +1,9 @@
+<!-- 
+  INFO FILE
+  Nama: WelcomeItem.vue
+  Fungsi: Komponen/File bagian dari aplikasi Solevia.
+-->
+
 <template>
   <div class="item">
     <i>

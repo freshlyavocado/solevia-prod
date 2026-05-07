@@ -1,3 +1,9 @@
+<!-- 
+  INFO FILE
+  Nama: DealsView.vue
+  Fungsi: Halaman khusus untuk menampilkan produk-produk yang sedang diskon (memiliki discount_price).
+-->
+
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
 import { useProductStore } from '../stores/product'
