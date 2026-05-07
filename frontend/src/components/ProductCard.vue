@@ -8,7 +8,7 @@
 import type { Product } from '../types'
 import { Heart } from 'lucide-vue-next'
 import { useAuthStore } from '../stores/auth'
-import api from '../services/api'
+import api, { storageUrl } from '../services/api'
 
 const props = defineProps<{
   product: Product
@@ -51,7 +51,7 @@ const formatPrice = (price: number) => {
     <!-- Product Image -->
     <RouterLink :to="`/product/${product.slug}`" class="block aspect-[4/3] overflow-hidden bg-gray-50 flex items-center justify-center p-4">
       <img 
-        :src="product.images && product.images.length > 0 ? `http://localhost:8000/storage/${product.images[0]?.image_url}` : 'https://placehold.co/400x300?text=No+Image'" 
+        :src="product.images && product.images.length > 0 ? storageUrl(product.images[0]?.image_url) : 'https://placehold.co/400x300?text=No+Image'" 
         :alt="product.name" 
         class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105 mix-blend-multiply"
       />

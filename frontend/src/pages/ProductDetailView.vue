@@ -8,7 +8,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { Heart, Share2, Plus, Minus, ChevronLeft, ChevronRight } from 'lucide-vue-next'
-import api from '../services/api'
+import api, { storageUrl } from '../services/api'
 import { useCartStore } from '../stores/cart'
 import { useAuthStore } from '../stores/auth'
 import type { Product } from '../types'
@@ -61,7 +61,7 @@ const activeImage = computed(() => {
   if (!product.value?.images || product.value.images.length === 0) {
     return 'https://placehold.co/600x600?text=No+Image'
   }
-  return `http://localhost:8000/storage/${product.value.images[selectedImageIndex.value]?.image_url}`
+  return storageUrl(product.value.images[selectedImageIndex.value]?.image_url)
 })
 
 // Thumbnails Slider Logic
@@ -165,7 +165,7 @@ const addToWishlist = async () => {
               class="flex-1 aspect-square rounded-xl bg-white border-2 flex items-center justify-center p-2 transition-all"
               :class="selectedImageIndex === (thumbnailStartIndex + idx) ? 'border-[#3771C8]' : 'border-gray-200 hover:border-[#3771C8]'"
             >
-              <img :src="`http://localhost:8000/storage/${img.image_url}`" :alt="`${product.name} - image ${thumbnailStartIndex + idx + 1}`" class="w-full h-full object-contain mix-blend-multiply" />
+              <img :src="storageUrl(img.image_url)" :alt="`${product.name} - image ${thumbnailStartIndex + idx + 1}`" class="w-full h-full object-contain mix-blend-multiply" />
             </button>
           </div>
           

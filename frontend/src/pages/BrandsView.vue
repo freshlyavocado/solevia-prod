@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useProductStore } from '../stores/product'
+import { storageUrl } from '../services/api'
 
 const productStore = useProductStore()
 
@@ -37,7 +38,7 @@ onMounted(() => {
         class="flex flex-col items-center justify-center py-8 px-4 border border-gray-200 rounded-2xl hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
       >
         <img 
-          :src="brand.logo_url ? `http://localhost:8000/storage/${brand.logo_url}` : 'https://placehold.co/200x100?text=' + brand.name" 
+          :src="brand.logo_url ? storageUrl(brand.logo_url) : 'https://placehold.co/200x100?text=' + brand.name" 
           :alt="brand.name" 
           class="h-16 object-contain mb-6 mix-blend-multiply"
         />

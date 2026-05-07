@@ -8,8 +8,8 @@ import axios from 'axios'
 
 // Membuat instance Axios custom dengan pengaturan bawaan (default)
 const api = axios.create({
-  // URL dasar API. Akan membaca dari .env (VITE_API_URL), jika tidak ada maka menggunakan localhost:8000
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
+  // URL dasar API. Akan membaca dari .env (VITE_API_BASE_URL), jika tidak ada maka menggunakan domain produksi
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://api-solevia.athayaafatih.my.id/api',
   // Pengaturan header standar agar backend tahu kita mengirim dan meminta data berformat JSON
   headers: {
     'Content-Type': 'application/json',
@@ -47,4 +47,16 @@ api.interceptors.response.use(
   }
 )
 
+/**
+ * Helper function: Menghasilkan URL lengkap untuk mengakses file dari backend storage.
+ * Digunakan untuk menampilkan gambar produk, logo brand, dll.
+ * Contoh: storageUrl('products/image.jpg') → 'https://api-solevia.athayaafatih.my.id/storage/products/image.jpg'
+ */
+export const storageUrl = (path: string): string => {
+  // Ambil base URL dari env variable, hapus '/api' di akhir untuk mendapat root URL backend
+  const baseUrl = (import.meta.env.VITE_API_BASE_URL || 'https://api-solevia.athayaafatih.my.id/api').replace(/\/api\/?$/, '')
+  return `${baseUrl}/storage/${path}`
+}
+
 export default api
+

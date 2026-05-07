@@ -8,6 +8,7 @@
 import { onMounted, ref, onUnmounted } from 'vue'
 import { useProductStore } from '../stores/product'
 import ProductCard from '../components/ProductCard.vue'
+import { storageUrl } from '../services/api'
 
 const productStore = useProductStore()
 
@@ -131,7 +132,7 @@ onUnmounted(() => {
           class="flex flex-col items-center justify-center p-6 border border-gray-200 bg-white rounded-xl hover:shadow-lg hover:-translate-y-1 hover:border-[#3771C8] transition-all duration-300 group"
         >
           <img 
-            :src="brand.logo_url ? `http://localhost:8000/storage/${brand.logo_url}` : 'https://placehold.co/200x100?text=' + brand.name" 
+            :src="brand.logo_url ? storageUrl(brand.logo_url) : 'https://placehold.co/200x100?text=' + brand.name" 
             :alt="brand.name" 
             class="h-12 object-contain mb-4 mix-blend-multiply transition-all duration-300"
           />

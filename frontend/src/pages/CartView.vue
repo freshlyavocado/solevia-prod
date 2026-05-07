@@ -10,6 +10,7 @@ import { useCartStore } from '../stores/cart'
 import { useAuthStore } from '../stores/auth'
 import { Trash2, Plus, Minus, ArrowRight } from 'lucide-vue-next'
 import { RouterLink } from 'vue-router'
+import { storageUrl } from '../services/api'
 
 // --- LOGIKA KERANJANG BELANJA ---
 
@@ -96,7 +97,7 @@ const removeItem = async (itemId: number) => {
           <!-- Image -->
           <div class="w-full sm:w-32 h-32 bg-gray-50 rounded-xl flex-shrink-0 flex items-center justify-center p-2 mb-4 sm:mb-0 sm:mr-6">
             <img 
-              :src="item.variant?.product?.images?.[0]?.image_url ? `http://localhost:8000/storage/${item.variant.product.images[0].image_url}` : 'https://placehold.co/400x400?text=No+Image'" 
+              :src="item.variant?.product?.images?.[0]?.image_url ? storageUrl(item.variant.product.images[0].image_url) : 'https://placehold.co/400x400?text=No+Image'" 
               :alt="item.variant?.product?.name" 
               class="w-full h-full object-contain mix-blend-multiply"
             />
